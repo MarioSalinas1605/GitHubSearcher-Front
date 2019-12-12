@@ -10,11 +10,9 @@ const SearchBar = () => {
           placeholder="Search"
           aria-label="Search"
         />
-        <div>
-          <button type="button" className="btn btn-light">
-            GO
-          </button>
-        </div>
+        <button type="button" className="btn btn-secondary">
+          GO
+        </button>
       </div>
     </form>
   );
