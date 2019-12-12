@@ -1,0 +1,27 @@
+@media (min-width: 768px) {
+  .title-responsive {
+    font-size: 35px;
+  }
+
+  .title-secondary-responsive {
+    font-size: 30px;
+  }
+
+  .text-responsive {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 992px) {
+  .title-responsive {
+    font-size: 25px;
+  }
+
+  .title-secondary-responsive {
+    font-size: 15px;
+  }
+
+  .text-responsive {
+    font-size: 10px;
+  }
+}
