@@ -1,13 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import "bootstrap/js/src/collapse.js";
 import "./styles/Header.scss";
 
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
-      <a className="navbar-brand text-white title-responsive" href="#">
+      <Link to="/" className="navbar-brand text-white title-responsive">
         GitHub Searcher
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -23,20 +25,20 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <a
+            <Link
+              to="/"
               className="nav-link ml-5 text-white title-secondary-responsive"
-              href="#"
             >
               Users
-            </a>
+            </Link>
           </li>
           <li className="nav-item ml-5">
-            <a
+            <Link
+              to="/repository"
               className="nav-link text-white title-secondary-responsive"
-              href="#"
             >
               Repositories
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
