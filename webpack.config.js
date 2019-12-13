@@ -95,6 +95,9 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    historyApiFallback: true
+  },
   plugins: [
     extractSass,
     new HtmlWebpackPlugin({
