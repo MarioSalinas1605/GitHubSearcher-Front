@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import SearchBar from "../components/SearcherBar.jsx";
 import UserCard from "../components/UserCard.jsx";
 
@@ -14,22 +15,22 @@ const UserSearcher = () => {
   };
 
   useEffect(() => {
-    fetch(
-      `https://api.github.com/search/users?q=MarioSalinas&page=${page}&per_page=6`,
-      {
-        method: "GET",
-        headers: new Headers({
-          Accept: "application/vnd.github.cloak-preview"
-        })
+    async function fetchData() {
+      try {
+        const { data, status } = await axios({
+          url: `https://api.github.com/search/users?q=MarioSalinas&page=${page}&per_page=6`,
+          method: "get"
+        });
+        if (status === 200) {
+          setuserHistory(data.items);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    )
-      .then(res => res.json())
-      .then(response => {
-        setuserHistory(response.items);
-        setIsLoading(false);
-        console.log(response.items);
-      })
-      .catch(error => console.log(error));
+    }
+
+    fetchData();
   }, [page]);
 
   return (
