@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Layout from "../components/Layout";
 import UsersSearcher from "../containers/UsersSearcher";
 import RepositoriesSearcher from "../containers/RepositoriesSearcher.jsx";
+import UserRepositories from "../containers/UserRepositories.jsx";
 
 const App = () => {
   return (
@@ -14,6 +15,11 @@ const App = () => {
             exact
             path="/repository"
             component={RepositoriesSearcher}
+          ></Route>
+          <Route
+            exact
+            path="/user-repositories"
+            component={UserRepositories}
           ></Route>
         </Switch>
       </Layout>
