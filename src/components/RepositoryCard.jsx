@@ -14,7 +14,7 @@ const RepositoryCard = ({ repository }) => {
         <p className="card-text text-responsive">
           Language: {repository.language}
         </p>
-        <a href={repository.html_url} className="btn btn-dark">
+        <a href={repository.html_url} target="_blank" className="btn btn-dark">
           Go GitHub Repository
         </a>
       </div>

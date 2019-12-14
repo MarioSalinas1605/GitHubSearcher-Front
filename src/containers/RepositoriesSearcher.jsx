@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import SearchBar from "../components/SearcherBar.jsx";
 import RepositoryCard from "../components/RepositoryCard.jsx";
@@ -6,6 +6,15 @@ import RepositoryCard from "../components/RepositoryCard.jsx";
 const RepositoriesSearcher = () => {
   const [page, setPage] = useState(1);
   const [repositoryHistory, setRepositoryHistory] = useState([]);
+  const [repository, setRepository] = useState("");
+
+  const handleRepositoryChange = e => {
+    setRepository(e.target.value);
+  };
+
+  const handleRepositorySubmit = e => {
+    fetchData(repository);
+  };
 
   async function fetchData(query) {
     try {
@@ -22,18 +31,17 @@ const RepositoriesSearcher = () => {
     }
   }
 
-  useEffect(() => {
-    fetchData("react");
-  }, [page]);
-
   return (
     <div className="container-fluid m-0 p-5 bg-custom min-vh-100">
       <h4 className="text-center p-5 text-white title-responsive">
         What repository are you looking for?
       </h4>
-      <SearchBar />
+      <SearchBar
+        onSubmit={handleRepositorySubmit}
+        onChange={handleRepositoryChange}
+        searchBarValue={repository}
+      />
       <div className="row">
-        {/* <RepositoryCard /> */}
         {repositoryHistory.map((repository, index) => (
           <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">
             <RepositoryCard repository={repository} />
