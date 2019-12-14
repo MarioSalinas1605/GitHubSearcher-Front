@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBar from "../components/SearcherBar.jsx";
 import RepositoryCard from "../components/RepositoryCard.jsx";
 
 const RepositoriesSearcher = () => {
+  const [page, setPage] = useState(1);
   const [repositoryHistory, setRepositoryHistory] = useState([]);
-  const page = 1;
 
   async function fetchData(query) {
     try {
@@ -14,15 +14,17 @@ const RepositoriesSearcher = () => {
         method: "get"
       });
       if (status === 200) {
+        setRepositoryHistory(data.items);
         console.log(data.items);
-        setuserHistory(data.items);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  fetchData("react");
+  useEffect(() => {
+    fetchData("react");
+  }, [page]);
 
   return (
     <div className="container-fluid m-0 p-5 bg-custom min-vh-100">
@@ -31,12 +33,12 @@ const RepositoriesSearcher = () => {
       </h4>
       <SearchBar />
       <div className="row">
-        <div className="col-sm-12 col-md-6 col-lg-4 my-3">
-          <RepositoryCard />
-        </div>
-        <div className="col-sm-12 col-md-6 col-lg-4 my-3">
-          <RepositoryCard />
-        </div>
+        {/* <RepositoryCard /> */}
+        {repositoryHistory.map((repository, index) => (
+          <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">
+            <RepositoryCard repository={repository} />
+          </div>
+        ))}
       </div>
     </div>
   );
