@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import SearchBar from "../components/SearcherBar.jsx";
 import UserCard from "../components/UserCard.jsx";
+import { registerUser } from "../actions";
 
 import "./styles/UserSearcher.scss";
 
-const UserSearcher = () => {
+const UserSearcher = props => {
   const [page, setPage] = useState(1);
   const [userHistory, setuserHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +24,11 @@ const UserSearcher = () => {
   const handleUserSubmit = e => {
     setIsLoading(true);
     fetchData(user);
+  };
+
+  const handleButton = user => {
+    props.registerUser(user);
+    props.history.push("/user-repositories");
   };
 
   async function fetchData(query) {
@@ -54,7 +61,7 @@ const UserSearcher = () => {
       <div className="row">
         {userHistory.map((user, index) => (
           <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">
-            <UserCard user={user} />
+            <UserCard user={user} onClickButton={handleButton} />
           </div>
         ))}
       </div>
@@ -62,4 +69,8 @@ const UserSearcher = () => {
   );
 };
 
-export default UserSearcher;
+const mapDispatchToProps = {
+  registerUser
+};
+
+export default connect(null, mapDispatchToProps)(UserSearcher);
