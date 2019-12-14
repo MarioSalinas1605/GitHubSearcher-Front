@@ -1,5 +1,13 @@
 const reducer = (state, action) => {
-  return state;
+  switch (action.type) {
+    case "REGISTER_USER":
+      return {
+        ...state,
+        user: action.payload
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;
