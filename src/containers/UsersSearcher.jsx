@@ -3,8 +3,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import SearchBar from "../components/SearcherBar.jsx";
 import UserCard from "../components/UserCard.jsx";
-import Spinner from "../components/Spinner.jsx"
 import Pagination from "../components/Pagination.jsx"
+import FetchStates from "../components/FetchStates.jsx"
 import { registerUser } from "../actions";
 
 import "./styles/UserSearcher.scss";
@@ -66,12 +66,8 @@ const UserSearcher = props => {
         searchBarValue={user}
       />
 
-      {isLoading && <Spinner />}
-      {isError && 
-        <div className="alert alert-warning" role="alert">
-          Ops something went wrong
-        </div>
-      }
+      <FetchStates loading={isLoading} error={isError}/>
+      
       <div className="row">
         {userData.map((user, index) => (
           <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">

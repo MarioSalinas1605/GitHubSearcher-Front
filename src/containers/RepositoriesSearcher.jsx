@@ -3,11 +3,14 @@ import axios from "axios";
 import SearchBar from "../components/SearcherBar.jsx";
 import RepositoryCard from "../components/RepositoryCard.jsx";
 import Pagination from "../components/Pagination.jsx"
+import FetchStates from "../components/FetchStates.jsx"
 
 const RepositoriesSearcher = () => {
   const [page, setPage] = useState(1);
-  const [repositoryData, setrepositoryData] = useState([]);
+  const [repositoryData, setRepositoryData] = useState([]);
   const [repository, setRepository] = useState("");
+  const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (repository) {
@@ -25,16 +28,20 @@ const RepositoriesSearcher = () => {
 
   async function fetchData(query) {
     try {
+      setRepositoryData([])
+      setIsLoading(true);
+      setIsError(false);
       const { data, status } = await axios({
         url: `https://api.github.com/search/repositories?q=${query}&page=${page}&per_page=6`,
         method: "get"
       });
       if (status === 200) {
-        setrepositoryData(data.items);
-        console.log(data.items);
+        setRepositoryData(data.items);
+        setIsLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      setIsError(true);
+      setIsLoading(false);
     }
   }
 
@@ -48,7 +55,10 @@ const RepositoriesSearcher = () => {
         onChange={handleRepositoryChange}
         searchBarValue={repository}
       />
-      <div className="row">
+
+      <FetchStates loading={isLoading} error={isError}/>
+
+      <div className="row mb-3">
         {repositoryData.map((repository, index) => (
           <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">
             <RepositoryCard repository={repository} />
