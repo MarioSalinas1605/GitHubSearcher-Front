@@ -38,7 +38,7 @@ const UserRepositories = ({ user }) => {
   return (
     <div className="container-fluid m-0 p-5 bg-custom min-vh-100">
       <h4 className="text-center p-5 text-white title-responsive">
-        This are the repositories of {user}
+        This are repositories of {user}
       </h4>
 
       <FetchStates loading={isLoading} error={isError}/>
