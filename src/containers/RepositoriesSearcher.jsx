@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBar from "../components/SearcherBar.jsx";
 import RepositoryCard from "../components/RepositoryCard.jsx";
+import Pagination from "../components/Pagination.jsx"
 
 const RepositoriesSearcher = () => {
   const [page, setPage] = useState(1);
-  const [repositoryHistory, setRepositoryHistory] = useState([]);
+  const [repositoryData, setrepositoryData] = useState([]);
   const [repository, setRepository] = useState("");
+
+  useEffect(() => {
+    if (repository) {
+      fetchData(repository)
+    }
+  }, [page])
 
   const handleRepositoryChange = e => {
     setRepository(e.target.value);
@@ -23,7 +30,7 @@ const RepositoriesSearcher = () => {
         method: "get"
       });
       if (status === 200) {
-        setRepositoryHistory(data.items);
+        setrepositoryData(data.items);
         console.log(data.items);
       }
     } catch (error) {
@@ -42,12 +49,19 @@ const RepositoriesSearcher = () => {
         searchBarValue={repository}
       />
       <div className="row">
-        {repositoryHistory.map((repository, index) => (
+        {repositoryData.map((repository, index) => (
           <div key={index} className="col-sm-12 col-md-6 col-lg-4 mt-3">
             <RepositoryCard repository={repository} />
           </div>
         ))}
       </div>
+
+      <Pagination
+        paginationContent={repositoryData}
+        page={page}
+        previousPage={() => setPage(page - 1)}
+        nextPage={() => setPage(page + 1)}
+      />
     </div>
   );
 };

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import SearchBar from "../components/SearcherBar.jsx";
 import UserCard from "../components/UserCard.jsx";
 import Spinner from "../components/Spinner.jsx"
+import Pagination from "../components/Pagination.jsx"
 import { registerUser } from "../actions";
 
 import "./styles/UserSearcher.scss";
@@ -15,9 +16,11 @@ const UserSearcher = props => {
   const [isError, setIsError] = useState(false)
   const [user, setUser] = useState("");
 
-  const loadMoreUsers = () => {
-    setPage(page + 1);
-  };
+  useEffect(() => {
+    if (user) {
+      fetchData(user)  
+    }
+  }, [page])
 
   const handleUserChange = e => {
     setUser(e.target.value);
@@ -34,6 +37,7 @@ const UserSearcher = props => {
 
   async function fetchData(query) {
     try {
+      setuserData([])
       setIsLoading(true);
       setIsError(false);
       const { data, status } = await axios({
@@ -55,14 +59,16 @@ const UserSearcher = props => {
       <h4 className="text-center p-5 text-white title-responsive">
         What user are you looking for?
       </h4>
+
       <SearchBar
         onSubmit={handleUserSubmit}
         onChange={handleUserChange}
         searchBarValue={user}
       />
+
       {isLoading && <Spinner />}
       {isError && 
-        <div class="alert alert-warning" role="alert">
+        <div className="alert alert-warning" role="alert">
           Ops something went wrong
         </div>
       }
@@ -73,6 +79,13 @@ const UserSearcher = props => {
           </div>
         ))}
       </div>
+
+      <Pagination
+        paginationContent={userData}
+        page={page}
+        previousPage={() => setPage(page - 1)}
+        nextPage={() => setPage(page + 1)}
+      />
     </div>
   );
 };
