@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Searcher of GitHub users and repositories",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "Mario Salinas",
